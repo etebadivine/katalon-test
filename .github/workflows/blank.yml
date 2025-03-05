@@ -1,38 +1,31 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CI
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
-      # Run JMeter Test
+      # Run JMeter Test with output file specified
       - name: JMeter Test
         uses: QAInsights/PerfAction@v5.6.2
         with:
           test-plan-path: ./Sample Tutorial.jmx
-          args: ""
+          args: "-l result.jtl"
 
-      # Upload Results using the updated artifact action (v4)
+      # Debug - List Files to Confirm result.jtl Exists
+      - name: Debug - List Files
+        run: ls -la
+
+      # Upload Results
       - name: Upload Results
         uses: actions/upload-artifact@v4
         with:
