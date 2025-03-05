@@ -25,13 +25,16 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
+      # Run JMeter Test
       - name: JMeter Test
         uses: QAInsights/PerfAction@v5.6.2
         with:
           test-plan-path: ./Sample Tutorial.jmx
           args: ""
+
+      # Upload Results using the updated artifact action (v4)
       - name: Upload Results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: jmeter-results
           path: result.jtl
